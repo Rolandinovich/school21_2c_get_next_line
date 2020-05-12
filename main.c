@@ -1,6 +1,9 @@
 #include <stdio.h>
+#include "get_next_line_bonus.h"
 
 int main() {
-	printf("Hello, World!\n");
-	return 0;
+	char *line;
+	get_next_line(1, &line);
+	get_next_line(1, &line);
+	return (0);
 }
