@@ -1,13 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: charmon <charmon@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/05/12 22:29:07 by charmon           #+#    #+#             */
+/*   Updated: 2020/05/15 22:11:59 by charmon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <fcntl.h>
 #include "get_next_line_bonus.h"
 
-int main() {
-	char *line;
-	int fd;
+int			main(void)
+{
+	char	*line;
+	int		fd;
 
-	fd = open("/home/roman/CLionProjects/local_projects_scholl_21/school21_2c_get_next_line/5line", O_RDONLY);
+	fd = open("/home/roman/CLionProjects/local_projects_scholl_21/school21_2c_get_next_line/max", O_RDONLY);
 	while (get_next_line(fd, &line))
-			printf("%s\n", line);
+		printf("%s\n", line);
 	return (0);
 }

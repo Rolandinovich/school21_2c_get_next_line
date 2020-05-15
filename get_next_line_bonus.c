@@ -6,7 +6,7 @@
 /*   By: charmon <charmon@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 22:32:23 by charmon           #+#    #+#             */
-/*   Updated: 2020/05/15 10:34:16 by charmon          ###   ########.fr       */
+/*   Updated: 2020/05/15 22:12:57 by charmon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	del_descroptor(t_descriptor *for_del, t_descriptor **d)
 {
-	t_descriptor		*tmp;
-	int					i;
+	t_descriptor	*tmp;
+	int				i;
 
 	i = 0;
 	if (d[0] && d[0]->fd == for_del->fd)
@@ -44,28 +44,33 @@ void	del_descroptor(t_descriptor *for_del, t_descriptor **d)
 int		append_data(t_descriptor *descriptor)
 {
 	char	buf[BUFFER_SIZE + 1];
-	size_t	ret;
+	int		ret;
 	char	*new_line;
 
 	if (!(ret = read(descriptor->fd, buf, BUFFER_SIZE)))
 		return (0);
+	if (ret == -1)
+		return (-1);
 	buf[ret] = '\0';
 	if (!descriptor->data)
-		descriptor->data = ft_strdup(buf);
+	{
+		if (!(descriptor->data = ft_strdup(buf)))
+			return (-1);
+	}
 	else
 	{
-		new_line = ft_strjoin(descriptor->data, buf);
+		if (!(new_line = ft_strjoin(descriptor->data, buf)))
+			return (-1);
 		free(descriptor->data);
 		descriptor->data = new_line;
 	}
 	return (ret);
 }
 
-char	*get_line(t_descriptor *d)
+int		get_line(t_descriptor *d, char **line)
 {
 	size_t	len;
 	size_t	idx;
-	char	*line;
 	char	*remainder;
 	char	*n;
 
@@ -73,12 +78,13 @@ char	*get_line(t_descriptor *d)
 	{
 		free(d->data);
 		d->data = NULL;
-		return (NULL);
+		return (0);
 	}
 	n = ft_strchr(d->data, '\n');
 	len = (n) ? n - d->data : ft_strlen(d->data);
-	line = (char *)malloc(sizeof(char) * (len + 1));
-	ft_strlcpy(line, d->data, len + 1);
+	if (!(*line = (char *)malloc(sizeof(char) * (len + 1))))
+		return (-1);
+	ft_strlcpy(*line, d->data, len + 1);
 	len++;
 	remainder = (char *)malloc(sizeof(char) * (ft_strlen(d->data) - len + 1));
 	idx = 0;
@@ -87,26 +93,26 @@ char	*get_line(t_descriptor *d)
 	remainder[idx] = '\0';
 	free(d->data);
 	d->data = remainder;
-	return (line);
+	return (1);
 }
 
 int		processing(t_descriptor *current, t_descriptor **d, char **line)
 {
 	size_t	append_count;
+	size_t	get_line_result;
 
 	append_count = 1;
 	while ((!current->data || !ft_strchr(current->data, '\n')) && append_count)
 		append_count = append_data(current);
-	if (!current->data)
+	if (!current->data || append_count == -1)
 	{
 		del_descroptor(current, d);
-		return (0);
+		return (-1);
 	}
-	*line = get_line(current);
-	if (*line)
-		return (1);
-	else
-		return (0);
+	get_line_result = get_line(current, line);
+	if (get_line_result == 0 || get_line_result == -1)
+		del_descroptor(current, d);
+	return (get_line_result);
 }
 
 int		get_next_line(int fd, char **line)
