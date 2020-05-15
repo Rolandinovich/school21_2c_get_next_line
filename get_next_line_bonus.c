@@ -6,7 +6,7 @@
 /*   By: charmon <charmon@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 22:32:23 by charmon           #+#    #+#             */
-/*   Updated: 2020/05/15 22:12:57 by charmon          ###   ########.fr       */
+/*   Updated: 2020/05/15 22:17:32 by charmon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int		processing(t_descriptor *current, t_descriptor **d, char **line)
 	size_t	get_line_result;
 
 	append_count = 1;
-	while ((!current->data || !ft_strchr(current->data, '\n')) && append_count)
+	while ((!current->data || !ft_strchr(current->data, '\n')) && append_count >= 1)
 		append_count = append_data(current);
 	if (!current->data || append_count == -1)
 	{
