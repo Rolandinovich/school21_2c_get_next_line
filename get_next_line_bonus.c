@@ -6,7 +6,7 @@
 /*   By: charmon <charmon@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 22:32:23 by charmon           #+#    #+#             */
-/*   Updated: 2020/05/14 23:15:55 by charmon          ###   ########.fr       */
+/*   Updated: 2020/05/15 10:34:16 by charmon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int		append_data(t_descriptor *descriptor)
 
 	if (!(ret = read(descriptor->fd, buf, BUFFER_SIZE)))
 		return (0);
-	buf[BUFFER_SIZE] = '\0';
+	buf[ret] = '\0';
 	if (!descriptor->data)
 		descriptor->data = ft_strdup(buf);
 	else
@@ -69,28 +69,24 @@ char	*get_line(t_descriptor *d)
 	char	*remainder;
 	char	*n;
 
+	if (*(d->data) == '\0')
+	{
+		free(d->data);
+		d->data = NULL;
+		return (NULL);
+	}
 	n = ft_strchr(d->data, '\n');
 	len = (n) ? n - d->data : ft_strlen(d->data);
 	line = (char *)malloc(sizeof(char) * (len + 1));
 	ft_strlcpy(line, d->data, len + 1);
-	if (d->data[0] == '\n')
-		len++;
+	len++;
 	remainder = (char *)malloc(sizeof(char) * (ft_strlen(d->data) - len + 1));
 	idx = 0;
 	while (d->data[len] != '\0')
 		remainder[idx++] = d->data[len++];
-	if (idx)
-	{
-		remainder[idx] = '\0';
-		free(d->data);
-		d->data = remainder;
-	}
-	else
-	{
-		free(remainder);
-		free(d->data);
-		d->data = NULL;
-	}
+	remainder[idx] = '\0';
+	free(d->data);
+	d->data = remainder;
 	return (line);
 }
 
@@ -104,10 +100,13 @@ int		processing(t_descriptor *current, t_descriptor **d, char **line)
 	if (!current->data)
 	{
 		del_descroptor(current, d);
-		return (-1);
+		return (0);
 	}
 	*line = get_line(current);
-	return (0);
+	if (*line)
+		return (1);
+	else
+		return (0);
 }
 
 int		get_next_line(int fd, char **line)
