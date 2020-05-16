@@ -6,11 +6,11 @@
 /*   By: charmon <charmon@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 22:32:23 by charmon           #+#    #+#             */
-/*   Updated: 2020/05/15 22:50:31 by charmon          ###   ########.fr       */
+/*   Updated: 2020/05/16 21:49:22 by charmon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
 void	del_descroptor(t_descriptor *for_del, t_descriptor **d)
 {
@@ -43,10 +43,12 @@ void	del_descroptor(t_descriptor *for_del, t_descriptor **d)
 
 int		append_data(t_descriptor *descriptor)
 {
-	char	buf[BUFFER_SIZE + 1];
+	char	*buf;
 	int		ret;
 	char	*new_line;
 
+	if (!(buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
+		return (-1);
 	if (!(ret = read(descriptor->fd, buf, BUFFER_SIZE)))
 		return (0);
 	if (ret == -1)
@@ -64,6 +66,7 @@ int		append_data(t_descriptor *descriptor)
 		free(descriptor->data);
 		descriptor->data = new_line;
 	}
+	free(buf);
 	return (ret);
 }
 
@@ -81,7 +84,7 @@ int		get_line(t_descriptor *d, char **line)
 		return (0);
 	}
 	n = ft_strchr(d->data, '\n');
-	len = (n) ? n - d->data : ft_strlen(d->data);
+	len = (n) ? n - d->data : ft_strlen(d->data) - 1;
 	if (!(*line = (char *)malloc(sizeof(char) * (len + 1))))
 		return (-1);
 	ft_strlcpy(*line, d->data, len + 1);
@@ -98,11 +101,12 @@ int		get_line(t_descriptor *d, char **line)
 
 int		processing(t_descriptor *current, t_descriptor **d, char **line)
 {
-	int 	append_count;
-	int 	get_line_result;
+	int		append_count;
+	int		get_line_result;
 
 	append_count = 1;
-	while ((!current->data || !ft_strchr(current->data, '\n')) && append_count >= 1)
+	while ((!current->data || !ft_strchr(current->data, '\n'))
+			&& append_count >= 1)
 		append_count = append_data(current);
 	if (!current->data || append_count == -1)
 	{

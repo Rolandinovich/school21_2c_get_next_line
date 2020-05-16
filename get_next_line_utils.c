@@ -6,11 +6,11 @@
 /*   By: charmon <charmon@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 22:38:09 by charmon           #+#    #+#             */
-/*   Updated: 2020/05/12 23:54:45 by charmon          ###   ########.fr       */
+/*   Updated: 2020/05/16 20:13:23 by charmon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
 char		*ft_strchr(const char *s, int c)
 {

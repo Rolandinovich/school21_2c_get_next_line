@@ -6,13 +6,14 @@
 /*   By: charmon <charmon@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 22:29:07 by charmon           #+#    #+#             */
-/*   Updated: 2020/05/16 19:43:57 by charmon          ###   ########.fr       */
+/*   Updated: 2020/05/16 21:11:39 by charmon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <fcntl.h>
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
+
 
 int			main(void)
 {
