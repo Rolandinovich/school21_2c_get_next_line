@@ -6,7 +6,7 @@
 /*   By: charmon <charmon@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 22:29:07 by charmon           #+#    #+#             */
-/*   Updated: 2020/05/17 11:19:56 by charmon          ###   ########.fr       */
+/*   Updated: 2020/05/17 11:20:11 by charmon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int			main(void)
 			if (!iter_count)
 //				fd_list[idx] = open("/home/roman/CLionProjects/local_projects_scholl_21/school21_2c_get_next_line/basic_tests", O_RDONLY);
 				fd_list[idx] = open("basic_tests", O_RDONLY);
-			printf("idx :%d\n",fd_list[idx]);
+			printf("fd :%d\n",fd_list[idx]);
 			res = 1;
 			res = get_next_line(fd_list[idx], &line);
 			if (res == 1)
