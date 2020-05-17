@@ -6,7 +6,7 @@
 /*   By: charmon <charmon@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 22:32:23 by charmon           #+#    #+#             */
-/*   Updated: 2020/05/17 22:30:34 by charmon          ###   ########.fr       */
+/*   Updated: 2020/05/17 23:28:47 by charmon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,21 +105,19 @@ int		processing(t_descriptor *current, t_descriptor **d, char **line)
 
 	append_count = 1;
 	while ((!current->data || !ft_strchr(current->data, '\n'))
-			&& append_count >= 1)
+							&& append_count >= 1)
 		append_count = append_data(current);
 	if (!current->data || append_count == -1)
 	{
 		del_descroptor(current, d);
-		*line = strdup("\0");
+		if (!(*line = ft_strdup("\0")))
+			return (-1);
 		return (append_count);
 	}
 	get_line_result = get_line(current, line);
-	if (get_line_result == 0 || get_line_result == -1)
+	if (get_line_result <= 0)
 		del_descroptor(current, d);
-	if (!append_count && !ft_strchr(current->data, '\n'))
-		return (0);
-	else
-		return (get_line_result);
+	return (get_line_result);
 }
 
 int		get_next_line(int fd, char **line)
