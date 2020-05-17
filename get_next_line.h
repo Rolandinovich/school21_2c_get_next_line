@@ -6,13 +6,12 @@
 /*   By: charmon <charmon@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 22:29:07 by charmon           #+#    #+#             */
-/*   Updated: 2020/05/17 10:24:42 by charmon          ###   ########.fr       */
+/*   Updated: 2020/05/17 22:12:11 by charmon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFFER_SIZE 32
 # include <stdio.h>
 # include <string.h>
 # include <unistd.h>

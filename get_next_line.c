@@ -6,7 +6,7 @@
 /*   By: charmon <charmon@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 22:32:23 by charmon           #+#    #+#             */
-/*   Updated: 2020/05/16 22:07:15 by charmon          ###   ########.fr       */
+/*   Updated: 2020/05/17 22:30:34 by charmon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,29 +74,28 @@ int		get_line(t_descriptor *d, char **line)
 {
 	size_t	len;
 	size_t	idx;
+	int		result;
 	char	*remainder;
 	char	*n;
 
-	if (*(d->data) == '\0')
-	{
-		free(d->data);
-		d->data = NULL;
-		return (0);
-	}
 	n = ft_strchr(d->data, '\n');
-	len = (n) ? (size_t)(n - d->data) : ft_strlen(d->data) - 1;
+	len = (n) ? (size_t)(n - d->data) : ft_strlen(d->data);
+	result = (n) ? 1 : 0;
 	if (!(*line = (char *)malloc(sizeof(char) * (len + 1))))
 		return (-1);
 	ft_strlcpy(*line, d->data, len + 1);
-	len++;
+	if (result)
+		len++;
 	remainder = (char *)malloc(sizeof(char) * (ft_strlen(d->data) - len + 1));
+	if (!remainder)
+		return (-1);
 	idx = 0;
 	while (d->data[len] != '\0')
 		remainder[idx++] = d->data[len++];
 	remainder[idx] = '\0';
 	free(d->data);
 	d->data = remainder;
-	return (1);
+	return (result);
 }
 
 int		processing(t_descriptor *current, t_descriptor **d, char **line)
@@ -111,12 +110,16 @@ int		processing(t_descriptor *current, t_descriptor **d, char **line)
 	if (!current->data || append_count == -1)
 	{
 		del_descroptor(current, d);
+		*line = strdup("\0");
 		return (append_count);
 	}
 	get_line_result = get_line(current, line);
 	if (get_line_result == 0 || get_line_result == -1)
 		del_descroptor(current, d);
-	return (get_line_result);
+	if (!append_count && !ft_strchr(current->data, '\n'))
+		return (0);
+	else
+		return (get_line_result);
 }
 
 int		get_next_line(int fd, char **line)
