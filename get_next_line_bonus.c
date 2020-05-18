@@ -6,11 +6,11 @@
 /*   By: charmon <charmon@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 22:32:23 by charmon           #+#    #+#             */
-/*   Updated: 2020/05/17 23:26:54 by charmon          ###   ########.fr       */
+/*   Updated: 2020/05/18 00:04:57 by charmon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 void	del_descroptor(t_descriptor *for_del, t_descriptor **d)
 {

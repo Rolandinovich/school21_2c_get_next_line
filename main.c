@@ -26,16 +26,16 @@ int			main(void)
 	char 	for_next[10];
 
 
-//	printf("Тест стандартного инпута\n\n");
-//	res = 1;
-//	while (res == 1)
-//	{
-//		res = get_next_line(1, &line);
-//		if (res)
-//			printf("%s\n", line);
-//		free(line);
-//		line = NULL;
-//	}
+	printf("Тест стандартного инпута\n\n");
+	res = 1;
+	while (res == 1)
+	{
+		res = get_next_line(1, &line);
+		if (res)
+			printf("%s\n", line);
+		free(line);
+		line = NULL;
+	}
 
 	printf("Базовые тесты\n\n");
 	fd = open("/home/roman/CLionProjects/local_projects_scholl_21/school21_2c_get_next_line/basic_tests", O_RDONLY);
